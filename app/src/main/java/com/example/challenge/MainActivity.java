@@ -35,7 +35,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    public static final String url = "http://api.acme.international/fortune";
+    public static final String url = "*************";
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private static FortuneMessageAdapter fortuneMessageAdapter;
