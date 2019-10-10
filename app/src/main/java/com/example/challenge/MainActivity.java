@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
     }
 
-    public static class PullAdviceTask extends AsyncTask<String, Void, Void>{
+    public class PullAdviceTask extends AsyncTask<String, Void, Void>{
         public String serverResponse;
         private Context context;
 
@@ -96,10 +97,26 @@ public class MainActivity extends AppCompatActivity {
                 Response response =  okHttpClient.newCall(request).execute();
                 serverResponse = response.body().string();
 
+            } catch (EOFException ex){
+
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(context, context.getString(R.string.wrong_inputs), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
             }catch (Exception e){
                 Log.e(TAG, e.toString());
-                Toast.makeText(context, context.getString(R.string.timeout_message), Toast.LENGTH_SHORT).show();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(context, context.getString(R.string.timeout_message), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
             }
+
             return null;
         }
 
